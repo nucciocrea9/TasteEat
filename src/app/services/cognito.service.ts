@@ -44,7 +44,7 @@ export class CognitoService {
 
     this.cognitoAuth.userhandler = {
       onSuccess: async (result) => {
-        console.log('Signin success');
+        
         this.cognitoSession = result;
         await this.refreshAwsCredentials();
         this.onSuccess(this.ACTION_SIGNIN);
