@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { CognitoAuth } from 'amazon-cognito-auth-js';
 import * as AWS from 'aws-sdk';
-import { FoodService } from '../services/food/food.service';
 import { environment } from './../../environments/environment';
 
 
@@ -24,7 +23,7 @@ export class CognitoService {
 
 
 
-  constructor(private router: Router, private food: FoodService) {
+  constructor(private router: Router) {
     this.getAuthInstance();
   }
 
@@ -44,7 +43,7 @@ export class CognitoService {
 
     this.cognitoAuth.userhandler = {
       onSuccess: async (result) => {
-        
+
         this.cognitoSession = result;
         await this.refreshAwsCredentials();
         this.onSuccess(this.ACTION_SIGNIN);
@@ -78,12 +77,13 @@ export class CognitoService {
   }
 
   get tokenPayload() {
+    console.log(this.cognitoSession.getIdToken().decodePayload())
     return this.cognitoSession.getIdToken().decodePayload()
   }
 
 
   get accessToken() {
-    return this.cognitoSession && this.cognitoSession.getAccessToken().getJwtToken();
+    return this.cognitoSession.getIdToken().getJwtToken();
   }
 
   get isAuthenticated() {
@@ -112,7 +112,7 @@ export class CognitoService {
     }
     this.onSuccess(this.ACTION_REFRESH_CREDENTIALS);
 
-    //return (< AWS.CognitoIdentityCredentials > AWS.config.credentials).data['Credentials'];
+    return (< AWS.CognitoIdentityCredentials > AWS.config.credentials).data['Credentials'];
   }
 
 

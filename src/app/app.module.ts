@@ -8,6 +8,7 @@ import { HomeComponent } from './home/home.component';
 import { FoodPageComponent } from './food-page/food-page.component';
 import { TagsComponent } from './tags/tags.component';
 import {CognitoService} from "./services/cognito.service";
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import {CognitoService} from "./services/cognito.service";
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
   providers: [CognitoService],
   bootstrap: [AppComponent]

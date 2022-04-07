@@ -2,26 +2,31 @@ import { Injectable } from '@angular/core';
 import { Food } from '../../shared/models/Food';
 import { Tag } from '../../shared/models/Tag';
 import * as AWS from 'aws-sdk';
+import { environment } from './../../../environments/environment';
+import { HttpClient } from '@angular/common/http';
+import { CognitoService } from '../cognito.service';
 
 @Injectable({
   providedIn: 'root'
 })
 
+
 export class FoodService {
-
-
-  constructor() { }
+  
+  elements: Food[] ;
+  
+  constructor(private http: HttpClient, private cognito: CognitoService) {
+     this.elements = []
+  }
 
   getUrl(file: string): string {
-
-
+   
     const params = {
-      Bucket: 'eu-west-region-bucket',
+      Bucket: environment.bucket,
       Key: file
     };
-
     let s3 = new AWS.S3();
-   
+
     return s3.getSignedUrl('getObject', { Bucket: params.Bucket, Key: params.Key });
   }
 
@@ -30,7 +35,34 @@ export class FoodService {
   }
 
   getFoodByTag(tag: string): Food[] {
+    
     return tag == "All" ? this.getAll() : this.getAll().filter(food => food.tags?.includes(tag));
+  }
+
+  emptyarray() {
+    this.elements = []
+  }
+
+  getApi(){
+    const headers = { "Authorization": this.cognito.accessToken }
+    this.http.get<any>(environment.api_url, { headers }).subscribe((recipes) => {
+
+      recipes.forEach((recipe: any) => {
+        const temp = {
+          id: recipe.recipe_id.N,
+          name: recipe.recipe_name.S,
+          cookTime: recipe.cook_time.S,
+          price: recipe.price.N,
+          origins: recipe.origins.SS,
+          imageUrl: '',
+          tags: recipe.tags.SS
+        }
+        this.elements.push(temp);        
+      })
+      this.elements.forEach((element) => {
+        element.imageUrl = this.getUrl(element.name.replace(/\s/g, "") + '.jpg')
+      })     
+    })
   }
 
   getAllTags(): Tag[] {
@@ -43,58 +75,11 @@ export class FoodService {
       { name: 'Hamburger', count: this.getFoodByTag('Hamburger').length },
       { name: 'Fry', count: this.getFoodByTag('Fry').length }
     ];
+
   }
   getAll(): Food[] {
-    const elements = [
-      {
-        id: 1,
-        name: 'secondi-di-carne.jpg',
-        cookTime: '10-20',
-        price: 10,
-        favorite: false,
-        origins: ['italy'],
-        stars: 4.5,
-        imageUrl: '',
-        tags: ['FastFood', 'Pizza', 'Lunch'],
-      },
-      {
-        id: 2,
-        name: 'SH_bruschetta_al_pomodoro-1200x800.jpg',
-        price: 20,
-        cookTime: '20-30',
-        favorite: true,
-        origins: ['persia', 'middle east', 'china'],
-        stars: 4.7,
-        imageUrl: '',
-        tags: ['SlowFood', 'Lunch'],
-      },
-      {
-        id: 3,
-        name: 'SH_lasagne_bolognese.jpg',
-        price: 5,
-        cookTime: '10-15',
-        favorite: false,
-        origins: ['germany', 'us'],
-        stars: 3.5,
-        imageUrl: '',
-        tags: ['FastFood', 'Hamburger'],
-      },
-      {
-        id: 4,
-        name: 'SH_pancake_americani-1200x800.jpg',
-        price: 2,
-        cookTime: '15-20',
-        favorite: true,
-        origins: ['belgium', 'france'],
-        stars: 3.3,
-        imageUrl: '',
-        tags: ['FastFood', 'Fry'],
-      }
-    ]
-    elements.forEach((element: Food) => {
-      element.imageUrl = this.getUrl(element.name)
-    })
-    return elements;
-
+    
+    return this.elements;
+    
   }
 }
