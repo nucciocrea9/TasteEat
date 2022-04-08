@@ -12,15 +12,15 @@ import { CognitoService } from '../cognito.service';
 
 
 export class FoodService {
-  
-  elements: Food[] ;
-  
+
+  elements: Food[];
+
   constructor(private http: HttpClient, private cognito: CognitoService) {
-     this.elements = []
+    this.elements = []
   }
 
   getUrl(file: string): string {
-   
+
     const params = {
       Bucket: environment.bucket,
       Key: file
@@ -35,7 +35,7 @@ export class FoodService {
   }
 
   getFoodByTag(tag: string): Food[] {
-    
+
     return tag == "All" ? this.getAll() : this.getAll().filter(food => food.tags?.includes(tag));
   }
 
@@ -43,7 +43,15 @@ export class FoodService {
     this.elements = []
   }
 
-  getApi(){
+  createOrder(recipe_name, recipe_price) {
+    const headers = { "Authorization": this.cognito.accessToken }
+    const name = recipe_name.replace(/ /g, "_")
+    const params = { name: name, price: recipe_price }
+    const options = { params: params, headers: headers };
+    this.http.post<any>(environment.api_url1, null, options).subscribe(res => { });
+  }
+
+  getApi() {
     const headers = { "Authorization": this.cognito.accessToken }
     this.http.get<any>(environment.api_url, { headers }).subscribe((recipes) => {
 
@@ -57,12 +65,17 @@ export class FoodService {
           imageUrl: '',
           tags: recipe.tags.SS
         }
-        this.elements.push(temp);        
+
+        this.elements.push(temp);
+
       })
       this.elements.forEach((element) => {
         element.imageUrl = this.getUrl(element.name.replace(/\s/g, "") + '.jpg')
-      })     
+      })
+
+
     })
+    return this.elements
   }
 
   getAllTags(): Tag[] {
@@ -78,8 +91,10 @@ export class FoodService {
 
   }
   getAll(): Food[] {
-    
+
+
+
     return this.elements;
-    
+
   }
 }

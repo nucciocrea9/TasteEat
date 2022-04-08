@@ -36,6 +36,7 @@ export class HomeComponent implements OnInit {
           
           this.foods = this.foodService.getFoodByTag(params.tag);
         }
+        
       })
       
       this.foods = this.foodService.getAll();

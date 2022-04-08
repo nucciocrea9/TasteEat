@@ -23,7 +23,7 @@
         <div class="price">
             <span>{{food.price|currency}}</span>
         </div>
-        <button>Add to cart</button>
+        <button (click)="this.foodService.createOrder(food.name, food.price)">Add</button>
     </div>
    
 </div>

@@ -10,17 +10,24 @@ import { Food } from '../shared/models/Food';
   styleUrls: ['./food-page.component.css']
 })
 export class FoodPageComponent implements OnInit {
-
+  setAuthorized: any;
   food!: Food;
   constructor(private activatedRoute: ActivatedRoute, public foodService: FoodService, private cognito: CognitoService) {
-    activatedRoute.params.subscribe((params) => {
-      if (params.id)
-        this.food = foodService.getFoodById(params.id)
-    })
+    
   }
 
   ngOnInit(): void {
+    this.cognito.init((action) => {
 
+      if (action === this.cognito.ACTION_SIGNIN) 
+        this.setAuthorized = true
+     
+    })
+    this.activatedRoute.params.subscribe((params) => {
+      if (params.id)
+        this.food = this.foodService.getFoodById(params.id)
+        
+    })
   }
-
+  
 }
