@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Food } from '../../shared/models/Food';
 import { Tag } from '../../shared/models/Tag';
+import { Order } from '../../shared/models/Order';
 import * as AWS from 'aws-sdk';
 import { environment } from './../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { CognitoService } from '../cognito.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -12,15 +14,17 @@ import { CognitoService } from '../cognito.service';
 
 
 export class FoodService {
-
-  elements: Food[];
-
-  constructor(private http: HttpClient, private cognito: CognitoService) {
-    this.elements = []
+  
+  elements: Food[] ;
+  orders: Order[];
+  
+  constructor(private http: HttpClient, private cognito: CognitoService , private router: Router) {
+     this.elements = []
+     this.orders=[]
   }
 
   getUrl(file: string): string {
-
+   
     const params = {
       Bucket: environment.bucket,
       Key: file
@@ -35,7 +39,7 @@ export class FoodService {
   }
 
   getFoodByTag(tag: string): Food[] {
-
+    
     return tag == "All" ? this.getAll() : this.getAll().filter(food => food.tags?.includes(tag));
   }
 
@@ -43,15 +47,38 @@ export class FoodService {
     this.elements = []
   }
 
-  createOrder(recipe_name, recipe_price) {
+  createOrder(recipe_name, recipe_price){
     const headers = { "Authorization": this.cognito.accessToken }
-    const name = recipe_name.replace(/ /g, "_")
-    const params = { name: name, price: recipe_price }
+    const name=recipe_name.replace(/ /g,"_")
+    const params={name: name, price: recipe_price }
     const options = { params: params, headers: headers };
-    this.http.post<any>(environment.api_url1, null, options).subscribe(res => { });
+    this.http.post<any>(environment.api_url1, null, options).subscribe(res=>{});
+    this.router.navigate(['/'])
   }
 
-  getApi() {
+  getOrders() : Order[]{
+    const headers = { "Authorization": this.cognito.accessToken }
+    this.http.get<any>(environment.api_url2, { headers }).subscribe(orders => {
+    
+     orders.forEach((order: any) => {
+        const temp = {
+          name: order.name.replace(/_/g, " "),
+          price: order.price,
+          imageUrl: '',
+          time: order.time
+        }
+        this.orders.push(temp);
+      })
+      this.orders.forEach((element) => {
+        element.imageUrl = this.getUrl(element.name.replace(/\s/g, "") + '.jpg')
+      })
+    })
+    return this.orders
+  }
+getAllorders(){
+  return this.orders;
+}
+ getApi() {
     const headers = { "Authorization": this.cognito.accessToken }
     this.http.get<any>(environment.api_url, { headers }).subscribe((recipes) => {
 
@@ -65,15 +92,13 @@ export class FoodService {
           imageUrl: '',
           tags: recipe.tags.SS
         }
-
+       
         this.elements.push(temp);
-
       })
       this.elements.forEach((element) => {
         element.imageUrl = this.getUrl(element.name.replace(/\s/g, "") + '.jpg')
       })
-
-
+      
     })
     return this.elements
   }
@@ -90,10 +115,9 @@ export class FoodService {
     ];
 
   }
-  getAll(): Food[] {
-
-
-
+   getAll(): Food[] {
+    
+    
     return this.elements;
 
   }

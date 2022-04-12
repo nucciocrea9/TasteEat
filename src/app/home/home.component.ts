@@ -35,6 +35,7 @@ export class HomeComponent implements OnInit {
         if (params.tag){
           
           this.foods = this.foodService.getFoodByTag(params.tag);
+          console.log(this.foods)
         }
         
       })

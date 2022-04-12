@@ -9,6 +9,7 @@ import { FoodPageComponent } from './food-page/food-page.component';
 import { TagsComponent } from './tags/tags.component';
 import {CognitoService} from "./services/cognito.service";
 import { HttpClientModule } from '@angular/common/http';
+import { OrdersComponent } from './orders/orders.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { HttpClientModule } from '@angular/common/http';
     HeaderComponent,
     HomeComponent,
     FoodPageComponent,
-    TagsComponent
+    TagsComponent,
+    OrdersComponent
   ],
   imports: [
     BrowserModule,
