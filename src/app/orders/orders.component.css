@@ -2,55 +2,60 @@ table {
     font-family: arial, sans-serif;
     border-collapse: collapse;
     width: 100%;
-  }
-  
-  td, th {
+}
+
+th {
     border: 1px solid #dddddd;
     text-align: center;
     padding: 8px;
-  }
-  tr{
-   height: 12.5rem;
-  }
-  tr:nth-child(even) {
-    background-color: #dddddd;
-  }
+}
 
-.details{
+tr {
+    height: 12.5rem;
+    border: 1px solid #e72929;
+}
+
+td:nth-child(1) {
+    background-color: whitesmoke;
+    text-align: center;
+}
+
+.details {
     height: 12.5rem;
     width: 10rem;
     border: 1px solid whitesmoke;
-    border-radius:1rem;
+    border-radius: 1rem;
     margin: 0.5rem;
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    color:#e72929;
+    color: #e72929;
 }
 
-.details header{
+.details header {
     display: flex;
     justify-content: space-between;
     width: 100%;
 }
 
-.details .name{
- font-size: 1rem;
- font-weight: bold;
+.details .name {
+    font-size: 1rem;
+    font-weight: bold;
 }
-.details .name span{
+
+.details .name span {
     padding: .6rem 2rem .6rem 0;
     border-radius: 10rem;
     font-size: 1.3rem;
 }
 
-.details .price{
+.details .price {
     font-size: 1rem;
-    
+
     color: green;
 }
 
-.details .price::before{
+.details .price::before {
     content: "Price: ";
     color: darkgrey;
 }

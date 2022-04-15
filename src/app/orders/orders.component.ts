@@ -9,25 +9,31 @@ import { Order } from '../shared/models/Order';
   styleUrls: ['./orders.component.css']
 })
 export class OrdersComponent implements OnInit {
-  days = ['Monday','Tuesday','Wednesday','Thursday','Friday'];
+  days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
   setAuthorized: any;
   orders: Order[] = [];
-  constructor(public foodService:FoodService, private cognitoService: CognitoService) { }
+  sortedOrders: any = [];
+  constructor(public foodService: FoodService, private cognitoService: CognitoService) { }
 
   ngOnInit(): void {
-    this.foodService.orders=[]
+
+    this.foodService.orders = []
     this.cognitoService.init((action) => {
-    if (action === this.cognitoService.ACTION_SIGNIN) 
-      this.setAuthorized = true
-    this.orders= this.foodService.getAllorders()
+      if (action === this.cognitoService.ACTION_SIGNIN)
+        this.setAuthorized = true
+      this.orders = this.foodService.getAllorders()
     })
-    this.orders= this.foodService.getOrders()
+    this.orders = this.foodService.getOrders()
 
-    }
+  }
+  sort(day: string) {
+    this.sortedOrders = this.orders.filter(obj => obj.time.includes(day));
+    console.log(this.sortedOrders)
+  }
 
-    isOrdered(order: Order, day: string) : boolean{
-      const giorno = new Date(order.time.substring(0,10).split("/").reverse().join("/")).getDay()
-      
-      return this.days[giorno-1]===day ? true : false
-    }
+  isOrdered(order: Order, day: string): boolean {
+    const giorno = new Date(order.time.substring(0, 10).split("/").reverse().join("/")).getDay()
+
+    return this.days[giorno - 1] === day ? true : false
+  }
 }
