@@ -18,6 +18,7 @@ tr {
 td:nth-child(1) {
     background-color: whitesmoke;
     text-align: center;
+    width: 10rem;
 }
 
 .details {

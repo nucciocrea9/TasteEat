@@ -65,7 +65,8 @@ export class FoodService {
           name: order.name.replace(/_/g, " "),
           price: order.price,
           imageUrl: '',
-          time: order.time
+          time: order.time,
+          expiration: order.expiration
         }
         this.orders.push(temp);
       })

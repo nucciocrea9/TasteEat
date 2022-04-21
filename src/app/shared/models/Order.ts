@@ -3,5 +3,6 @@ export class Order{
     price!: number;
     imageUrl!:string;
     time!: string;
+    expiration!: string;
 
 }
