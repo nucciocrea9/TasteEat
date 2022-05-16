@@ -23,7 +23,7 @@ jobs:
           aws-session-token: ${{secrets.AWS_SESSION_TOKEN}}
           aws-region: eu-west-1
       env: 
-      AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET_NAME }}  
+        AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET_NAME }}  
     - uses: actions/checkout@v2
     - run: npm ci
     - run: npm run build --if-present
