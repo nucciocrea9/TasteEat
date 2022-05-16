@@ -28,9 +28,10 @@ export class OrdersComponent implements OnInit {
   }
   sort(day: string) {
     const date=new Date().toISOString();
-    const now=date.substring(0,10).split("-").reverse().join("/")
-    this.sortedOrders = this.orders.filter(obj => obj.time.includes(day) && obj.expiration>=now);
-   
+    const now=date.substring(0,10).split("-").join("/")
+    console.log(now)
+    this.sortedOrders = this.orders.filter(obj =>  {console.log(obj.time,obj.expiration); return obj.time.includes(day) && obj.expiration>=now});
+    
   }
 
   isOrdered(order: Order, day: string): boolean {
