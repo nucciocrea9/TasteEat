@@ -1,36 +1,26 @@
-name: deploy-app-on-s3on:
-  pull_request:
-    branches: [dev]
-    types: [closed]
+name: Build and deploy
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ dev ]
+
 jobs:
-  deploy:
+  build:
+
     runs-on: ubuntu-latest
-    env:
-      AWS_S3_BUCKET_NAME: $AWS_S3_BUCKET
-    strategy:
-      matrix:
-        node-version: [10.x]
     steps:
-      - uses: actions/checkout@master
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-      - name: Install Dependencies
-        run: npm install
-      - name: Build Application
-        run: npm run-script build
-      - uses: jakejarvis/s3-sync-action@master
-        name: Upload App to S3 Bucket
-        with:
-          args: --follow-symlinks --delete
-        env:
-          AWS_S3_BUCKET: ${{ env.AWS_S3_BUCKET_NAME }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_SESSION_TOKEN: ${{secrets.AWS_SESSION_TOKEN}}
-          AWS_REGION: "eu-west-1"
-          
+    - uses: actions/checkout@v2
+    - name: Install dependecies
+      run: npm install
 
+    - name: Build
+      run: npm run build
 
-          
+    - name: Copy into s3 bucket
+      run: aws s3 sync build/ s3://$HOSTING_BUCKET/
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_DEFAULT_REGION: ${{ secrets.REGION }}
+        HOSTING_BUCKET: ${{ secrets.AWS_S3_BUCKET_NAME }}
