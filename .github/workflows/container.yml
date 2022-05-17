@@ -29,6 +29,8 @@ jobs:
        mkdir src/environments
        ENVIRONMENT_PROD='export const environment = { production: true, ClientId: "%s", AppWebDomain: "%s", TokenScopesArray: ["openid", "email"],  RedirectUriSignIn: "%s",UserPoolId: "%s",RedirectUriSignOut: "%s",IdentityPoolId: "%s",region: "%s",bucket: "%s",api_url: "%s/getRecipes",api_url1:"%s/order",api_url2:"%s/getOrders"};\n'
        printf "$ENVIRONMENT_PROD" "$CLIENT_ID" "$APP_WEB_DOMAIN" "REDIRECT_URI_SIGNIN" "$USER_POOL_ID" "$REDIRECT_URI_SIGNOUT" "$IDENTITY_POOL_ID" "$REGION" "$BUCKET" "$API_URL" "$API_URL" "$API_URL"> src/environments/environment.prod.ts
+       ENVIRONMENT_TS='export const environment = { production: true, ClientId: "%s", AppWebDomain: "%s", TokenScopesArray: ["openid", "email"],  RedirectUriSignIn: "http://localhost:4200/",UserPoolId: "%s",RedirectUriSignOut: "http://localhost:4200/",IdentityPoolId: "%s",region: "%s",bucket: "%s",api_url: "%s/getRecipes",api_url1:"%s/order",api_url2:"%s/getOrders"};\n'
+       printf "$ENVIRONMENT_TS" "$CLIENT_ID" "$APP_WEB_DOMAIN" "$USER_POOL_ID" "$IDENTITY_POOL_ID" "$REGION" "$BUCKET" "$API_URL" "$API_URL" "$API_URL"> src/environments/environment.ts
        npm run build
 
     - name: Copy into s3 bucket
