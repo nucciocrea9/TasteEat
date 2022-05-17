@@ -15,6 +15,23 @@ env:
   BUCKET: ${{secrets.BUCKET}}
   API_URL: ${{secrets.API_URL}}
 jobs:
+  invalidate-distribution:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SESSION_TOKEN}}
+          aws-region: eu-west-1
+
+      - name: Invalidate distribution
+        run: |
+          aws cloudfront create-invalidation --distribution-id ${{ secrets.DISTRIBUTION_ID }} --paths "/*"          
+
   build:
 
     runs-on: ubuntu-latest
@@ -32,7 +49,7 @@ jobs:
        ENVIRONMENT_TS='export const environment = { production: true, ClientId: "%s", AppWebDomain: "%s", TokenScopesArray: ["openid", "email"],  RedirectUriSignIn: "http://localhost:4200/",UserPoolId: "%s",RedirectUriSignOut: "http://localhost:4200/",IdentityPoolId: "%s",region: "%s",bucket: "%s",api_url: "%s/getRecipes",api_url1:"%s/order",api_url2:"%s/getOrders"};\n'
        printf "$ENVIRONMENT_TS" "$CLIENT_ID" "$APP_WEB_DOMAIN" "$USER_POOL_ID" "$IDENTITY_POOL_ID" "$REGION" "$BUCKET" "$API_URL" "$API_URL" "$API_URL"> src/environments/environment.ts
        npm run build
-
+    
     - name: Copy into s3 bucket
       run: aws s3 sync dist/ s3://$HOSTING_BUCKET/
       env:
@@ -41,3 +58,5 @@ jobs:
         AWS_SESSION_TOKEN: ${{secrets.AWS_SESSION_TOKEN}}
         AWS_DEFAULT_REGION: ${{ secrets.REGION }}
         HOSTING_BUCKET: ${{ secrets.AWS_S3_BUCKET_NAME }}
+
+    
