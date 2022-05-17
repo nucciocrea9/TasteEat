@@ -4,7 +4,16 @@ on:
   workflow_dispatch:
   push:
     branches: [ dev ]
-
+env:
+  CLIENT_ID: ${{secrets.CLIENT_ID}}
+  APP_WEB_DOMAIN: ${{secrets.APP_WEB_DOMAIN}}
+  REDIRECT_URI_SIGNIN: ${{secrets.REDIRECT_URI_SIGNIN}}
+  USER_POOL_ID: ${{secrets.USER_POOL_ID}}
+  REDIRECT_URI_SIGNOUT: ${{secrets.REDIRECT_URI_SIGNOUT}}
+  IDENTITY_POOL_ID: ${{secrets.IDENTITY_POOL_ID}}
+  REGION: ${{secrets.REGION}}
+  BUCKET: ${{secrets.BUCKET}}
+  API_URL: ${{secrets.API_URL}}
 jobs:
   build:
 
@@ -15,12 +24,16 @@ jobs:
       run: npm install
 
     - name: Build
-      run: npm run build
+      run: | 
+       ENVIRONMENT_PROD='export const environment = { production: true, ClientId: "%s", AppWebDomain: "%s", TokenScopesArray: ["openid", "email"],  RedirectUriSignIn: "%s",UserPoolId: "%s",RedirectUriSignOut: "%s",IdentityPoolId: "%s",region: "%s",bucket: "%s",api_url: "%s/getRecipes",api_url1:"%s/order",api_url2:"%s/getOrders"};\n'
+       printf "$ENVIRONMENT_PROD" "$CLIENT_ID" "$APP_WEB_DOMAIN" "REDIRECT_URI_SIGNIN" "$USER_POOL_ID" "$REDIRECT_URI_SIGNOUT" "$IDENTITY_POOL_ID" "$REGION" "$BUCKET" "$API_URL" "$API_URL" "$API_URL"> environment.prod.ts
+       npm run build
 
     - name: Copy into s3 bucket
       run: aws s3 sync build/ s3://$HOSTING_BUCKET/
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_SESSION_TOKEN: ${{secrets.AWS_SESSION_TOKEN}}
         AWS_DEFAULT_REGION: ${{ secrets.REGION }}
         HOSTING_BUCKET: ${{ secrets.AWS_S3_BUCKET_NAME }}
