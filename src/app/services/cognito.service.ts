@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { CognitoAuth } from 'amazon-cognito-auth-js';
 import * as AWS from 'aws-sdk';
-import { environment } from './../../environments/environment';
+import { environment } from './../../environments/environment.prod';
 
 
 @Injectable({
