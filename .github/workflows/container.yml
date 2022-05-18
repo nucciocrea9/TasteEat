@@ -14,8 +14,6 @@ env:
   REGION: ${{secrets.REGION}}
   BUCKET: ${{secrets.BUCKET}}
   API_URL: ${{secrets.API_URL}}
-  API_URL1: ${{secrets.API_URL1}}
-  API_URL2: ${{secrets.API_URL2}}
 jobs:
   invalidate-distribution:
     runs-on: ubuntu-latest
@@ -46,10 +44,10 @@ jobs:
       run: | 
        ls
        mkdir src/environments
-       ENVIRONMENT_PROD='export const environment = { production: true, ClientId: "%s", AppWebDomain: "%s", TokenScopesArray: ["openid", "email"],  RedirectUriSignIn: "%s",UserPoolId: "%s",RedirectUriSignOut: "%s",IdentityPoolId: "%s",region: "%s",bucket: "%s",api_url: "%s/getRecipes",api_url1: "%s/order",api_url2: "%s/getOrders"};\n'
-       printf "$ENVIRONMENT_PROD" "$CLIENT_ID" "$APP_WEB_DOMAIN" "$REDIRECT_URI_SIGNIN" "$USER_POOL_ID" "$REDIRECT_URI_SIGNOUT" "$IDENTITY_POOL_ID" "$REGION" "$BUCKET" "$API_URL" "$API_URL1" "$API_URL2"> src/environments/environment.prod.ts
+       ENVIRONMENT_PROD='export const environment = { production: true, ClientId: "%s", AppWebDomain: "%s", TokenScopesArray: ["openid", "email"],  RedirectUriSignIn: "%s",UserPoolId: "%s",RedirectUriSignOut: "%s",IdentityPoolId: "%s",region: "%s",bucket: "%s",api_url: "%s/getRecipes", api_url1: "%s/order",api_url2: "%s/getOrders"};\n'
+       printf "$ENVIRONMENT_PROD" "$CLIENT_ID" "$APP_WEB_DOMAIN" "$REDIRECT_URI_SIGNIN" "$USER_POOL_ID" "$REDIRECT_URI_SIGNOUT" "$IDENTITY_POOL_ID" "$REGION" "$BUCKET" "$API_URL" "$API_URL" "$API_URL"> src/environments/environment.prod.ts
        ENVIRONMENT_TS='export const environment = { production: false, ClientId: "%s", AppWebDomain: "%s", TokenScopesArray: ["openid", "email"],   RedirectUriSignIn: "%s",UserPoolId: "%s",RedirectUriSignOut: "%s",IdentityPoolId: "%s",region: "%s",bucket: "%s",api_url: "%s/getRecipes",api_url1: "%s/order",api_url2: "%s/getOrders"};\n'
-       printf "$ENVIRONMENT_TS" "$CLIENT_ID" "$APP_WEB_DOMAIN" "$REDIRECT_URI_SIGNIN" "$USER_POOL_ID" "$REDIRECT_URI_SIGNOUT" "$IDENTITY_POOL_ID" "$REGION" "$BUCKET" "$API_URL" "$API_URL1" "$API_URL2"> src/environments/environment.ts
+       printf "$ENVIRONMENT_TS" "$CLIENT_ID" "$APP_WEB_DOMAIN" "$REDIRECT_URI_SIGNIN" "$USER_POOL_ID" "$REDIRECT_URI_SIGNOUT" "$IDENTITY_POOL_ID" "$REGION" "$BUCKET" "$API_URL" "$API_URL" "$API_URL"> src/environments/environment.ts
        cat src/environments/environment.ts
        npm run build 
     
