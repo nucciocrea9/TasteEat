@@ -3,7 +3,7 @@ import { Food } from '../../shared/models/Food';
 import { Tag } from '../../shared/models/Tag';
 import { Order } from '../../shared/models/Order';
 import * as AWS from 'aws-sdk';
-import { environment } from './../../../environments/environment';
+import { environment } from './../../../environments/environment.prod';
 import { HttpClient } from '@angular/common/http';
 import { CognitoService } from '../cognito.service';
 import { Router } from '@angular/router';
