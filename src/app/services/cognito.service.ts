@@ -77,7 +77,6 @@ export class CognitoService {
   }
 
   get tokenPayload() {
-    console.log(this.cognitoSession.getIdToken().decodePayload())
     return this.cognitoSession.getIdToken().decodePayload()
   }
 
@@ -89,7 +88,6 @@ export class CognitoService {
   get isAuthenticated() {
     return this.cognitoAuth.isUserSignedIn(this.cognitoSession);
   }
-
   async refreshAwsCredentials() {
     if (!AWS.config.credentials) {
       AWS.config.region = environment.region

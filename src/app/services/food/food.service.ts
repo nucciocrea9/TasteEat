@@ -80,7 +80,7 @@ getAllorders(){
   return this.orders;
 }
  getApi() {
-    const headers = { "Authorization": this.cognito.accessToken }
+    const headers = { "Authorization": this.cognito.accessToken}
     this.http.get<any>(environment.api_url, { headers }).subscribe((recipes) => {
 
       recipes.forEach((recipe: any) => {
