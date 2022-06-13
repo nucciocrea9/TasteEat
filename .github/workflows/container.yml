@@ -1,0 +1,68 @@
+
+name: Build and deploy
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ test ]
+
+  
+env:
+  CLIENT_ID: ${{secrets.CLIENT_ID}}
+  REDIRECT_URI_SIGNIN: ${{secrets.REDIRECT_URI_SIGNIN}}
+  USER_POOL_ID: ${{secrets.USER_POOL_ID}}
+  REDIRECT_URI_SIGNOUT: ${{secrets.REDIRECT_URI_SIGNOUT}}
+  IDENTITY_POOL_ID: ${{secrets.IDENTITY_POOL_ID}}
+  REGION: ${{secrets.REGION}}
+  API_URL_US: ${{secrets.API_URL_US}}
+  API_URL_EU: ${{secrets.API_URL_EU}}
+  API_URL_US1: ${{secrets.API_URL_US1}}
+jobs:
+  invalidate-distribution:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN}}
+          aws-region: eu-west-1
+
+      - name: Invalidate distribution
+        run: |
+          aws cloudfront create-invalidation --distribution-id ${{ secrets.DISTRIBUTION_ID }} --paths "/*"          
+
+  build:
+
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependecies
+      working-directory: ./frontend
+      run: npm install
+
+    - name: Build
+      working-directory: ./frontend
+      run: | 
+       ls
+       mkdir src/environments
+       ENVIRONMENT_PROD='export const environment = { production: true, ClientId: "%s",  TokenScopesArray: ["openid", "email"],  RedirectUriSignIn: "%s",UserPoolId: "%s",RedirectUriSignOut: "%s",IdentityPoolId: "%s",region: "%s",api_url_us: "%s", api_url_eu: "%s",api_url_us1: "%s"};\n'
+       printf "$ENVIRONMENT_PROD" "$CLIENT_ID" "$REDIRECT_URI_SIGNIN" "$USER_POOL_ID" "$REDIRECT_URI_SIGNOUT" "$IDENTITY_POOL_ID" "$REGION" "$API_URL_US" "$API_URL_EU" "$API_URL_US1"> src/environments/environment.prod.ts
+       ENVIRONMENT_TS='export const environment = { production: false, ClientId: "%s", TokenScopesArray: ["openid", "email"],   RedirectUriSignIn: "%s",UserPoolId: "%s",RedirectUriSignOut: "%s",IdentityPoolId: "%s",region: "%s",api_url_us: "%s",api_url_eu: "%s",api_url_us1: "%s"};\n'
+       printf "$ENVIRONMENT_TS" "$CLIENT_ID" "$REDIRECT_URI_SIGNIN" "$USER_POOL_ID" "$REDIRECT_URI_SIGNOUT" "$IDENTITY_POOL_ID" "$REGION" "$API_URL_US" "$API_URL_EU" "$API_URL_US1"> src/environments/environment.ts
+       cat src/environments/environment.ts
+       npm run build 
+    
+    - name: Copy into s3 bucket
+      run: aws s3 sync dist/taste-eat/ s3://$HOSTING_BUCKET/
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_SESSION_TOKEN: ${{secrets.AWS_SESSION_TOKEN}}
+        AWS_DEFAULT_REGION: ${{ secrets.REGION }}
+        HOSTING_BUCKET: ${{ secrets.AWS_S3_BUCKET_NAME }}
+
+    
