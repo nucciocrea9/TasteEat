@@ -52,9 +52,9 @@ jobs:
       run: | 
        ls
        mkdir src/environments
-       ENVIRONMENT_PROD='export const environment = { production: true, ClientId: "%s",  TokenScopesArray: ["openid", "email"],  RedirectUriSignIn: "%s",UserPoolId: "%s", RedirectUriSignOut: "%s", IdentityPoolId: "%s", region: "%s", bucket_us: "%s", bucket_eu: "%s", bucket_us1: "%s", api_url_us: "%s", api_url_eu: "%s",api_url_us1: "%s"};\n'
+       ENVIRONMENT_PROD='export const environment = { production: true, ClientId: "%s",  TokenScopesArray: ["openid", "email"],  RedirectUriSignIn: "%s", UserPoolId: "%s", RedirectUriSignOut: "%s", IdentityPoolId: "%s", region: "%s", bucket_us: "%s", bucket_eu: "%s", bucket_us1: "%s", api_url_us: "%s", api_url_eu: "%s", api_url_us1: "%s"};\n'
        printf "$ENVIRONMENT_PROD" "$CLIENT_ID" "$REDIRECT_URI_SIGNIN" "$USER_POOL_ID" "$REDIRECT_URI_SIGNOUT" "$IDENTITY_POOL_ID" "$REGION" "$BUCKET_US" "$BUCKET_EU" "$BUCKET_US1" "$API_URL_US" "$API_URL_EU" "$API_URL_US1"> src/environments/environment.prod.ts
-       ENVIRONMENT_TS='export const environment = { production: false, ClientId: "%s", TokenScopesArray: ["openid", "email"],   RedirectUriSignIn: "%s",UserPoolId: "%s",RedirectUriSignOut: "%s", IdentityPoolId: "%s", region: "%s", bucket_us: "%s", bucket_eu: "%s", bucket_us1: "%s",api_url_us: "%s",api_url_eu: "%s",api_url_us1: "%s"};\n'
+       ENVIRONMENT_TS='export const environment = { production: false, ClientId: "%s", TokenScopesArray: ["openid", "email"],  RedirectUriSignIn: "%s", UserPoolId: "%s",RedirectUriSignOut: "%s", IdentityPoolId: "%s", region: "%s", bucket_us: "%s", bucket_eu: "%s", bucket_us1: "%s", api_url_us: "%s", api_url_eu: "%s", api_url_us1: "%s"};\n'
        printf "$ENVIRONMENT_TS" "$CLIENT_ID" "$REDIRECT_URI_SIGNIN" "$USER_POOL_ID" "$REDIRECT_URI_SIGNOUT" "$IDENTITY_POOL_ID" "$REGION" "$BUCKET_US" "$BUCKET_EU" "$BUCKET_US1" "$API_URL_US" "$API_URL_EU" "$API_URL_US1"> src/environments/environment.ts
        cat src/environments/environment.ts
        npm run build 
