@@ -118,6 +118,8 @@ async selectApi(){
       
       this.foods = this.foodService.getAll();
   // });
+  localStorage.setItem('country',await this.date[0].country_name)
+  console.log(localStorage)
     this.foodService.getApi(await this.selectApi(),this.bucket)
     console.log('ciao')
    }

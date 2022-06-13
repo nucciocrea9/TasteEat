@@ -20,6 +20,7 @@ export class OrdersComponent implements OnInit {
   date:Ip[]=[];
   test:any[]=[]
   country: any
+  loacalitems!: string;
  
   continent: Continents= new Continents()
   
@@ -46,7 +47,8 @@ async getContinent(country:string) {
      return test
 }
 async selectApi(){
-  const country='Europe'
+  const country=JSON.parse(localStorage.getItem('country')!)
+  console.log(country)
   if(await this.getContinent(await this.date[0].country_name)==='Europe'){
      this.apiUrl= environment.api_url_eu+'/getOrders'
      this.bucket= environment.bucket_eu
@@ -76,6 +78,7 @@ async selectApi(){
         this.setAuthorized = true
       this.orders = this.foodService.getAllorders()
    // })
+    
     this.orders = this.foodService.getOrders(await this.selectApi(),this.bucket)
 
   }
