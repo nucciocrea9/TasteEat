@@ -27,10 +27,10 @@ module "website" {
 
 module "authorization-west" {
   source               = "./Modules/authorization"
-  authenticated_role   = module.iam.authenticated_role
-  unauthenticated_role = module.iam.unauthenticated_role
+  authenticated_role   = Modules.iam.authenticated_role
+  unauthenticated_role = Modules.iam.unauthenticated_role
   region               = var.region
-  website              = "https://${module.website.domain_name}/"
+  website              = "https://${Modules.website.domain_name}/"
   user_pool_domain     = "taste-user-pool-${random_string.id-west.result}"
   providers = {
     aws = "aws"
