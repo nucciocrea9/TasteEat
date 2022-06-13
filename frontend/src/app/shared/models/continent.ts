@@ -43,7 +43,7 @@ continent_map:any= [
     {
       continent: 'Usa',
       countries: [
-        'United States',
+        
         'Virginia',
         'Pennsylvania',
         'Georgia',
@@ -62,6 +62,7 @@ continent_map:any= [
     {
       continent: 'Usa1',
       countries: [
+        'United States',
         'Alaska',
         'Arizona',
         'California',
