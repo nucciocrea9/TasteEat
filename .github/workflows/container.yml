@@ -27,6 +27,9 @@ jobs:
     name: Deploy Site
     runs-on: ubuntu-latest
     steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
 
     - name: Checkout Repo
       working-directory: /home/runner/work/TasteEat/TasteEat/backend
