@@ -40,7 +40,7 @@ resource "aws_dynamodb_table" "order" {
     ignore_changes = [write_capacity, read_capacity]
   }
 }
-
+/*
 module "table_autoscaling" {
   source  = "snowplow-devops/dynamodb-autoscaling/aws"
 
@@ -53,3 +53,4 @@ module "table_autoscaling1" {
   table_name = aws_dynamodb_table.order.id
 }
 
+*/
