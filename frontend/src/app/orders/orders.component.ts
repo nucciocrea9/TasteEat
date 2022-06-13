@@ -47,8 +47,8 @@ async getContinent(country:string) {
      return test
 }
 async selectApi(){
-  const country=JSON.parse(localStorage.getItem('country')!)
-  console.log(country)
+  //const country=JSON.parse(localStorage.getItem('country')!)
+  //console.log(country)
   if(await this.getContinent(await this.date[0].country_name)==='Europe'){
      this.apiUrl= environment.api_url_eu+'/getOrders'
      this.bucket= environment.bucket_eu
