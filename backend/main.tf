@@ -13,7 +13,7 @@ provider "aws" {
 }
 
 module "website" {
-  source = "./website"
+  source = "./module/website"
 
   s3_origin_id  = "s3OriginId"
   bucket_prefix = "taste-eat-website-"
@@ -26,7 +26,7 @@ module "website" {
 
 
 module "authorization-west" {
-  source               = "./modules/authorization"
+  source               = "./module/authorization"
   authenticated_role   = module.iam.authenticated_role
   unauthenticated_role = module.iam.unauthenticated_role
   region               = var.region
@@ -38,12 +38,12 @@ module "authorization-west" {
 }
 
 module "iam" {
-  source                = "./modules/iam"
+  source                = "./module/iam"
   //identity_pool_id      = module.authorization.identity_pool
   identity_pool_id_west = module.authorization-west.identity_pool
 }
 module "storage" {
-  source      = "./modules/storage"
+  source      = "./module/storage"
   cognitoRole = module.iam.authenticated_role
   providers = {
     aws = "aws"
@@ -52,7 +52,7 @@ module "storage" {
 }
 
 module "storage_west" {
-  source      = "./modules/storage"
+  source      = "./module/storage"
   cognitoRole = module.iam.authenticated_role
   providers = {
     aws = "aws.us-west-1"
@@ -60,7 +60,7 @@ module "storage_west" {
 
 }
 module "api" {
-  source        = "./modules/API"
+  source        = "./module/API"
   user_pool_arn = module.authorization-west.user_pool_arn
   db_table      = module.database.table_name
   db_table_order=module.database.table_name_order
@@ -71,7 +71,7 @@ module "api" {
 }
 
 module "api-west" {
-  source        = "./modules/API"
+  source        = "./module/API"
   user_pool_arn = module.authorization-west.user_pool_arn
   db_table      = module.database-west.table_name
   db_table_order=module.database-west.table_name_order
@@ -82,13 +82,13 @@ module "api-west" {
 }
 
 module "database" {
-  source = "./modules/database"
+  source = "./module/database"
   providers = {
     aws = "aws"
   }
 }
 module "database-west" {
-  source = "./modules/database"
+  source = "./module/database"
   providers = {
     aws = "aws.us-west-1"
   }
