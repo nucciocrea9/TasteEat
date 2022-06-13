@@ -73,17 +73,17 @@ async getContinent(country:string) {
 async selectApi(){
   
   if(await this.getContinent(await this.date[0].country_name)==='Europe'){
-     this.apiUrl=environment.api_url_eu+'/getRecipes'
-     this.bucket=environment.bucket_eu
+     this.apiUrl= environment.api_url_eu+'/getRecipes'
+     this.bucket= environment.bucket_eu
   }
   
    if(await this.getContinent(await this.date[0].country_name)==='Usa'){
-    this.apiUrl=environment.api_url_us+'/getRecipes'
-    this.bucket=environment.bucket_us
+    this.apiUrl= environment.api_url_us+'/getRecipes'
+    this.bucket= environment.bucket_us
   }
   if(await this.getContinent(await this.date[0].country_name)==='Usa1'){
-    this.apiUrl=environment.api_url_us1+"/getRecipes"
-    this.bucket=environment.bucket_us1
+    this.apiUrl= environment.api_url_us1+"/getRecipes"
+    this.bucket= environment.bucket_us1
   }
   console.log(this.apiUrl)
   return this.apiUrl

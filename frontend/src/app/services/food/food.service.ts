@@ -62,16 +62,16 @@ async getContinent(country:string) {
   async selectApi(){
     const country='Europe'
     if(await this.getContinent(await this.date[0].country_name)==='Europe'){
-      this.apiUrl=environment.api_url_eu+'/order'
+      this.apiUrl= environment.api_url_eu+'/order'
       
    }
    
     if(await this.getContinent(await this.date[0].country_name)==='Usa'){
-     this.apiUrl=environment.api_url_us+'/order'
+     this.apiUrl= environment.api_url_us+'/order'
     
    }
    if(await this.getContinent(await this.date[0].country_name)==='Usa1'){
-     this.apiUrl=environment.api_url_us1+"/order"
+     this.apiUrl= environment.api_url_us1+"/order"
      
    }
    console.log(this.apiUrl)
