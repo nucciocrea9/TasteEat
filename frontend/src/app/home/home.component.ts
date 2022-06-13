@@ -64,7 +64,7 @@ export class HomeComponent implements OnInit {
 
 async getContinent(country:string) {
   
-  
+  console.log('ciao')
   const get=this.continent.continent_map.filter(item=>item.countries.includes(country))
   const test=get[0].continent
   console.log(test)
