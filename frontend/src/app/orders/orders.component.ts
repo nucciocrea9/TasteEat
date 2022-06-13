@@ -49,16 +49,16 @@ async selectApi(){
   const country='Europe'
   if(await this.getContinent(await this.date[0].country_name)==='Europe'){
      this.apiUrl=environment.api_url_eu+'/getOrders'
-     this.bucket=''
+     this.bucket=environment.bucket_eu
   }
   
    if(await this.getContinent(await this.date[0].country_name)==='Usa'){
     this.apiUrl=environment.api_url_us+'/getOrders'
-    this.bucket=''
+    this.bucket=environment.bucket_us
   }
   if(await this.getContinent(await this.date[0].country_name)==='Usa1'){
     this.apiUrl=environment.api_url_us1+"/getOrders"
-    this.bucket=''
+    this.bucket=environment.bucket_us1
   }
   console.log(this.apiUrl)
   return this.apiUrl
