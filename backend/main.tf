@@ -26,7 +26,7 @@ module "website" {
 
 
 module "authorization-west" {
-  source               = "./authorization"
+  source               = "./Modules/authorization"
   authenticated_role   = module.iam.authenticated_role
   unauthenticated_role = module.iam.unauthenticated_role
   region               = var.region
