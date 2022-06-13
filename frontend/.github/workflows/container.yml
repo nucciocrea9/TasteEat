@@ -60,7 +60,7 @@ jobs:
        npm run build 
     
     - name: Copy into s3 bucket
-      run: aws s3 sync dist/taste-eat/ s3://$HOSTING_BUCKET/
+      run: aws s3 sync .frontend/dist/taste-eat/ s3://$HOSTING_BUCKET/
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
