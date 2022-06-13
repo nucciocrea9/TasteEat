@@ -10,7 +10,7 @@ resource "aws_iam_role" "authenticated" {
               "cognito-identity.amazonaws.com:amr" = "authenticated"
             }
             StringEquals = {
-              "cognito-identity.amazonaws.com:aud" = [ var.identity_pool_id_west]
+              "cognito-identity.amazonaws.com:aud" = [var.identity_pool_id, var.identity_pool_id_west]
               //aws_cognito_identity_pool.identities_pool.id
             }
           }
@@ -41,7 +41,7 @@ resource "aws_iam_role" "unauthenticated" {
               "cognito-identity.amazonaws.com:amr" = "unauthenticated"
             }
             StringEquals = {
-              "cognito-identity.amazonaws.com:aud" = [ var.identity_pool_id_west]
+              "cognito-identity.amazonaws.com:aud" = [var.identity_pool_id, var.identity_pool_id_west]
               //aws_cognito_identity_pool.identities_pool.id
             }
           }
