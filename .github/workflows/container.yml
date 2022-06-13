@@ -28,7 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-     - name: Checkout Repo
+    - name: Checkout Repo
       working-directory: ./backend
       run: ls -al
 
