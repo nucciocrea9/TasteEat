@@ -115,7 +115,7 @@ async selectApi(){
         }
         
       })
-      
+      console.log('ciao')
       this.foods = this.foodService.getAll();
   // });
   localStorage.setItem('country',await this.date[0].country_name)
