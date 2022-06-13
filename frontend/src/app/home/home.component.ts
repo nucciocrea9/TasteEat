@@ -71,7 +71,7 @@ async getContinent(country:string) {
      return test
 }
 async selectApi(){
-  
+  console.log(await this.date[0].country_name)
   if(await this.getContinent(await this.date[0].country_name)==='Europe'){
      this.apiUrl= environment.api_url_eu+'/getRecipes'
      this.bucket= environment.bucket_eu
