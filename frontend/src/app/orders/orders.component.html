@@ -1,0 +1,19 @@
+<table *ngIf="orders">
+  <tr *ngFor="let day of days">
+    <td>{{day}}</td>
+    <td *ngIf="this.sort(day)" class="days"></td>
+    <td *ngFor="let order of sortedOrders">
+      <div class="details">
+        <img [src]="order.imageUrl">
+        <div class="header">
+          <span class="name">
+            {{order.name}}
+          </span>
+        </div>
+        <div class="price">
+          <span>{{order.price|currency}}</span>
+        </div>
+      </div>
+    </td>
+  </tr>
+</table>
