@@ -28,7 +28,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-    
+     - name: Checkout Repo
+      working-directory: ./backend
+      run: ls -al
+
+    - name: Checkout Repo
+      working-directory: ./backend
+      uses: actions/checkout@v1
+      #run: terraform fmt -check
 
     - name: Terraform Init
       working-directory: ./backend
