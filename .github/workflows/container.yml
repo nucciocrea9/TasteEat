@@ -30,12 +30,12 @@ jobs:
 
     - name: Checkout Repo
       working-directory: ./backend
-      uses: actions/checkout@v1
+      #uses: actions/checkout@v1
       run: terraform fmt -check
 
     - name: Terraform Init
       working-directory: ./backend
-      uses: hashicorp/terraform-github-actions/init@v0.4.0
+     # uses: hashicorp/terraform-github-actions/init@v0.4.0
       run: terraform init
       env:
         #GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -51,7 +51,7 @@ jobs:
 
     - name: Terraform Apply
       working-directory: ./backend
-      uses: hashicorp/terraform-github-actions/apply@v0.4.0
+      #uses: hashicorp/terraform-github-actions/apply@v0.4.0
       run: terraform apply -auto-approve
       env:
         #GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
