@@ -29,16 +29,16 @@ jobs:
     steps:
 
     - name: Checkout Repo
-      working-directory: ./backend
+      working-directory: /backend
       run: ls -al
     
     - name: Checkout Repo
-      working-directory: ./backend
+      working-directory: /backend
       #uses: actions/checkout@v1
       run: terraform fmt -check
 
     - name: Terraform Init
-      working-directory: ./backend
+      working-directory: /backend
      # uses: hashicorp/terraform-github-actions/init@v0.4.0
       run: terraform init
       env:
