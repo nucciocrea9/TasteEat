@@ -31,7 +31,7 @@ jobs:
     - name: Checkout Repo
       working-directory: ./backend
       run: ls -al
-    -uses: actions/checkout@v1
+    
     - name: Checkout Repo
       working-directory: ./backend
       #uses: actions/checkout@v1
