@@ -11,6 +11,8 @@
     "noPropertyAccessFromIndexSignature": false,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     "declaration": false,
     "downlevelIteration": true,
@@ -19,7 +21,7 @@
     "importHelpers": true,
     "target": "es2017",
     "module": "es2020",
-    "types" : ["node"],
+    "types" : ["jest","node"],
     "typeRoots": [
       "node_modules/@types"
     ],

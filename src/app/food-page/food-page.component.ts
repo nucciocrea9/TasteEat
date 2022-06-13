@@ -17,17 +17,18 @@ export class FoodPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.cognito.init((action) => {
-
-      if (action === this.cognito.ACTION_SIGNIN) 
-        this.setAuthorized = true
-     
-    })
-    this.activatedRoute.params.subscribe((params) => {
-      if (params.id)
-        this.food = this.foodService.getFoodById(params.id)
-        console.log(this.food)
-    })
+    if(this.cognito.isLoggedIn()){
+    //this.cognito.init((action) => {
+       //this.cognito.refreshAwsCredentials()
+      //if (action === this.cognito.ACTION_SIGNIN) 
+       // this.setAuthorized = true
+        this.activatedRoute.params.subscribe((params) => {
+          if (params.id)
+            this.food = this.foodService.getFoodById(params.id)
+            console.log(this.food)
+        })
+    //})
+      }
   }
   
 }

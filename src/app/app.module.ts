@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { FormsModule, ReactiveFormsModule , FormGroup} from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -10,6 +10,9 @@ import { TagsComponent } from './tags/tags.component';
 import {CognitoService} from "./services/cognito.service";
 import { HttpClientModule } from '@angular/common/http';
 import { OrdersComponent } from './orders/orders.component';
+import { SignInComponent } from './auth/sign-in/sign-in.component';
+import { SignUpComponent } from './auth/sign-up/sign-up.component';
+
 
 @NgModule({
   declarations: [
@@ -18,14 +21,18 @@ import { OrdersComponent } from './orders/orders.component';
     HomeComponent,
     FoodPageComponent,
     TagsComponent,
-    OrdersComponent
+    OrdersComponent,
+    SignInComponent,
+    SignUpComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
-  providers: [CognitoService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
