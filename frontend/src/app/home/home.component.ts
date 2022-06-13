@@ -119,7 +119,7 @@ async selectApi(){
       this.foods = this.foodService.getAll();
   // });
     this.foodService.getApi(await this.selectApi(),this.bucket)
-  
+    console.log('ciao')
    }
   }
   
