@@ -9,8 +9,8 @@ on:
   
 env:
   CLIENT_ID: ${{secrets.CLIENT_ID}}
-  REDIRECT_URI_SIGNIN: ${{secrets.REDIRECT_URI_SIGNIN}}
-  USER_POOL_ID: ${{secrets.USER_POOL_ID}}
+  #REDIRECT_URI_SIGNIN: ${{secrets.REDIRECT_URI_SIGNIN}}
+  #USER_POOL_ID: ${{secrets.USER_POOL_ID}}
   REDIRECT_URI_SIGNOUT: ${{secrets.REDIRECT_URI_SIGNOUT}}
   IDENTITY_POOL_ID: ${{secrets.IDENTITY_POOL_ID}}
   #REGION: ${{secrets.REGION}}
@@ -63,6 +63,9 @@ jobs:
       #uses: hashicorp/terraform-github-actions/validate@v0.3.7
       run: |
        echo "REGION=$(terraform output region) >> $GITHUB_ENV"
+       echo "REDIRECT_URI_SIGNIN=$(terraform output RedirectUriSignIn) >> $GITHUB_ENV"
+       echo "REDIRECT_URI_SIGNOUT"=$(terraform output RedirectUriSignIn) >> $GITHUB_ENV"
+       echo "USER_POOL_ID"=$(terraform output UserPoolId:) >> $GITHUB_ENV"
       env:
         #GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         TF_ACTION_WORKING_DIR: 'terraform'
