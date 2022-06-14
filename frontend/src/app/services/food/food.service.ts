@@ -93,21 +93,23 @@ async getContinent(country:string) {
   async createOrder(recipe_name, recipe_price){
     let firstName: any; 
     await this.ipLookup()
-    
+    //console.log(this.date[0].countryCode)
+   // console.log(this.test[0])
    await this.selectApi()
     this.cognito.getIdToken()
         .pipe()  //this will limit the observable to only one value
         .subscribe((val) => {
             firstName = val; 
         });
-        console.log(firstName)
     const headers = { "Authorization": firstName}
+    console.log(firstName)
     const name=recipe_name.replace(/ /g,"_")
     const params={name: name, price: recipe_price }
     const options = { params: params, headers: headers };
-    
+    //this.cognito.refreshAwsCredentials()
     this.http.post<any>(await this.selectApi(), null, options).subscribe(res=>{});
-   
+   // await this.selectApi()
+    //this.router.navigate(['/home'])
   }
 
    getOrders(api_url,bucket) : Order[]{
@@ -173,7 +175,7 @@ getAllorders(){
       })
       
     })
-  
+   //console.log(AWS.config.getCredentials)
     return this.elements
   }
 

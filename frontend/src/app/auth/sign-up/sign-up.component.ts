@@ -11,9 +11,10 @@ import {Continents} from '../../shared/models/continent';
 
 interface formDataInterface {
   "given_name": string;
- 
+  //"family_name": string;
+  //"custom:university": string;
   "email": string;
-
+  //"phone_number": string;
   [key: string]: string;
 };
 
@@ -26,9 +27,10 @@ interface formDataInterface {
 export class SignUpComponent implements OnInit {
   isLoading:boolean = false;
   fname:string = '';
-  
+  //gname:string = '';
+  //university:string = '';
   email:string = '';
- 
+  //mobileNo:string = '';
   password:string = '';
   attributeList: any=[];
   isConfirm!: boolean;
@@ -82,7 +84,7 @@ async getContinent(country:string) {
       }
       console.log(this.attributeList)
       this.cognito.signUp(this.email, this.password, this.attributeList)
-      
+      //this.router.navigate(['/signin']);
       this.isConfirm=true
      }
     else{
