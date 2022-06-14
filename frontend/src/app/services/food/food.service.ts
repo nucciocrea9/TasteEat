@@ -66,14 +66,14 @@ async getContinent(country:string) {
       
    }
    
-    if(await this.getContinent(await this.date[0].country_name)==='Usa'){
-     this.apiUrl= environment.api_url_us+'/order'
+   else if(await this.getContinent(await this.date[0].region)==='Usa'){
+    this.apiUrl= environment.api_url_us+'/getRecipes'
     
-   }
-   if(await this.getContinent(await this.date[0].country_name)==='Usa1'){
-     this.apiUrl= environment.api_url_us1+"/order"
-     
-   }
+  }
+  else if(await this.getContinent(await this.date[0].region)==='Usa1'){
+    this.apiUrl= environment.api_url_us1+"/getRecipes"
+    
+  }
    console.log(this.apiUrl)
    return this.apiUrl
 }
