@@ -59,16 +59,16 @@ jobs:
         AWS_SECRET_ACCESS_KEY:  ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         AWS_SESSION_TOKEN: ${{secrets.AWS_SESSION_TOKEN}}
   
-    - name: Terraform Apply
-      working-directory: ./backend
+    #- name: Terraform Apply
+    #  working-directory: ./backend
       #uses: hashicorp/terraform-github-actions/apply@v0.4.0
-      run: terraform apply -auto-approve
-      env:
+    #  run: terraform apply -auto-approve
+    #  env:
         #GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        TF_ACTION_WORKING_DIR: 'terraform'
-        AWS_ACCESS_KEY_ID:  ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY:  ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        AWS_SESSION_TOKEN: ${{secrets.AWS_SESSION_TOKEN}}
+    #    TF_ACTION_WORKING_DIR: 'terraform'
+    #    AWS_ACCESS_KEY_ID:  ${{ secrets.AWS_ACCESS_KEY_ID }}
+    #    AWS_SECRET_ACCESS_KEY:  ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    #    AWS_SESSION_TOKEN: ${{secrets.AWS_SESSION_TOKEN}}
 
   invalidate-distribution:
     runs-on: ubuntu-latest
