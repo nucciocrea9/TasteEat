@@ -65,7 +65,7 @@ jobs:
        echo "REGION=$(terraform output region) >> $GITHUB_ENV"
        echo "REDIRECT_URI_SIGNIN=$(terraform output RedirectUriSignIn) >> $GITHUB_ENV"
        echo "REDIRECT_URI_SIGNOUT"=$(terraform output RedirectUriSignIn) >> $GITHUB_ENV"
-       echo "USER_POOL_ID"=$(terraform output UserPoolId:) >> $GITHUB_ENV"
+       echo "USER_POOL_ID"=$(terraform output UserPoolId) >> $GITHUB_ENV"
       env:
         #GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         TF_ACTION_WORKING_DIR: 'terraform'
