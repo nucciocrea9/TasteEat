@@ -67,11 +67,11 @@ async getContinent(country:string) {
    }
    
    else if(await this.getContinent(await this.date[0].region)==='Usa'){
-    this.apiUrl= environment.api_url_us+'/getRecipes'
+    this.apiUrl= environment.api_url_us+'/order'
     
   }
   else if(await this.getContinent(await this.date[0].region)==='Usa1'){
-    this.apiUrl= environment.api_url_us1+"/getRecipes"
+    this.apiUrl= environment.api_url_us1+"/order"
     
   }
    console.log(this.apiUrl)
