@@ -62,8 +62,6 @@ jobs:
       working-directory: ./backend
       #uses: hashicorp/terraform-github-actions/validate@v0.3.7
       run: |
-       terraform output
-       {{env.REGION}}=$(terraform output region)
        echo {{env.REGION}}
       env:
         #GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
