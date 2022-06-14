@@ -47,8 +47,7 @@ async getContinent(country:string) {
      return test
 }
 async selectApi(){
-  //const country=JSON.parse(localStorage.getItem('country')!)
-  //console.log(country)
+  
   if(await this.getContinent(await this.date[0].country_name)==='Europe'){
      this.apiUrl= environment.api_url_eu+'/getOrders'
      this.bucket= environment.bucket_eu
@@ -69,15 +68,13 @@ async selectApi(){
     if(this.cognitoService.getSessionValidity()){
     this.foodService.orders = []
     await this.ipLookup()
-   // console.log(this.date[0].countryCode)
-   // console.log(this.test[0])
+   
    await this.selectApi()
    
-    //this.cognitoService.init((action) => {
-     // if (action === this.cognitoService.ACTION_SIGNIN)
+   
         this.setAuthorized = true
       this.orders = this.foodService.getAllorders()
-   // })
+   
     
     this.orders = this.foodService.getOrders(await this.selectApi(),this.bucket)
 

@@ -33,25 +33,6 @@ export class HomeComponent implements OnInit {
     
   }
   
-  
-  /*
-    this.http.get<any>('http://ip-api.com/json')
-    .subscribe(response => {
-      
-            console.log('User\'s Location Data is ', response);
-            console.log('User\'s Country', response.country);
-            
-        function fail(data, status) {
-            console.log('Request failed.  Returned status of',
-                        status);
-        }
-        //this.date=response
-      })
-    }
-  */
-    
-
-  
   async ipLookup(): Promise<void> {
     return new Promise((resolve) => {
       this.http.get<any>('https://ipapi.co/json/').subscribe(recipes => {
@@ -71,7 +52,7 @@ async getContinent(country:string) {
      return test
 }
 async selectApi(){
-  //console.log(await this.date[0].region)
+  
    
   if(await this.getContinent(await this.date[0].country_name)==='Europe'){
      this.apiUrl= environment.api_url_eu+'/getRecipes'
@@ -93,19 +74,15 @@ async selectApi(){
     
     if(this.cognitoService.getSessionValidity()){
     await this.ipLookup()
-    console.log(this.date[0].country_name)
-   // console.log(this.test[0])
+    
    await this.selectApi()
    
-    //await this.foodService.selectApi()
+   
     this.cognitoService.refreshAwsCredentials()
     
     this.foodService.emptyarray()
     
-    //this.cognitoService.init((action,username) => {
-
-    //if (action === this.cognitoService.ACTION_SIGNIN) 
-   
+    
       this.setAuthorized = true
       
       this.route.params.subscribe(params => {
@@ -116,11 +93,10 @@ async selectApi(){
         }
         
       })
-      console.log('test')
+      
       this.foods = this.foodService.getAll();
-  // });
-  localStorage.setItem('country',await this.date[0].country_name)
-  console.log(localStorage)
+  
+ 
     this.foodService.getApi(await this.selectApi(),this.bucket)
    
    }
