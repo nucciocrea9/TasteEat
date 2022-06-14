@@ -9,11 +9,11 @@ on:
   
 env:
   CLIENT_ID: ${{secrets.CLIENT_ID}}
-  #REDIRECT_URI_SIGNIN: ${{secrets.REDIRECT_URI_SIGNIN}}
-  #USER_POOL_ID: ${{secrets.USER_POOL_ID}}
+  REDIRECT_URI_SIGNIN: ${{secrets.REDIRECT_URI_SIGNIN}}
+  USER_POOL_ID: ${{secrets.USER_POOL_ID}}
   REDIRECT_URI_SIGNOUT: ${{secrets.REDIRECT_URI_SIGNOUT}}
   IDENTITY_POOL_ID: ${{secrets.IDENTITY_POOL_ID}}
-  #REGION: ${{secrets.REGION}}
+  REGION: ${{secrets.REGION}}
   BUCKET_US: ${{secrets.BUCKET_US}}
   BUCKET_EU: ${{secrets.BUCKET_EU}}
   BUCKET_US1: ${{secrets.BUCKET_US1}}
