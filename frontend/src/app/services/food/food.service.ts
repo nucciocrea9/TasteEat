@@ -54,7 +54,8 @@ async getContinent(country:string) {
   
   
   const get=this.continent.continent_map.filter(item=>item.countries.includes(country))
-  const test=get[0].continent
+  const test='Usa'
+  //get[0].continent
   console.log(test)
      return test
 }
@@ -101,8 +102,8 @@ async getContinent(country:string) {
         .subscribe((val) => {
             firstName = val; 
         });
+        console.log(firstName)
     const headers = { "Authorization": firstName}
-    console.log(firstName)
     const name=recipe_name.replace(/ /g,"_")
     const params={name: name, price: recipe_price }
     const options = { params: params, headers: headers };

@@ -66,7 +66,8 @@ async getContinent(country:string) {
   
   
   const get=this.continent.continent_map.filter(item=>item.countries.includes(country))
-  const test=get[0].continent
+  const test='Usa'
+  //get[0].continent
   console.log(test)
      return test
 }
