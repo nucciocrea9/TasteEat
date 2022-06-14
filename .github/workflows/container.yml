@@ -13,7 +13,7 @@ env:
   USER_POOL_ID: ${{secrets.USER_POOL_ID}}
   REDIRECT_URI_SIGNOUT: ${{secrets.REDIRECT_URI_SIGNOUT}}
   IDENTITY_POOL_ID: ${{secrets.IDENTITY_POOL_ID}}
-  REGION: ${{secrets.REGION}}
+  #REGION: ${{secrets.REGION}}
   BUCKET_US: ${{secrets.BUCKET_US}}
   BUCKET_EU: ${{secrets.BUCKET_EU}}
   BUCKET_US1: ${{secrets.BUCKET_US1}}
@@ -62,10 +62,7 @@ jobs:
       working-directory: ./backend
       #uses: hashicorp/terraform-github-actions/validate@v0.3.7
       run: |
-       test=$(terraform output region)
-       echo "$test"
-       REGION=$test
-       echo REGION
+       echo "REGION=$(terraform output region) >> $GITHUB_ENV"
       env:
         #GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         TF_ACTION_WORKING_DIR: 'terraform'
