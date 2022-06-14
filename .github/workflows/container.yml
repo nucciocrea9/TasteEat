@@ -64,7 +64,8 @@ jobs:
       run: |
        test=$(terraform output region)
        echo "$test"
-       ${{env.REGION}}=$test
+       REGION=$test
+       echo REGION
       env:
         #GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         TF_ACTION_WORKING_DIR: 'terraform'
