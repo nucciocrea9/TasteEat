@@ -64,24 +64,25 @@ export class HomeComponent implements OnInit {
 
 async getContinent(country:string) {
   
-  console.log('ciao')
+  
   const get=this.continent.continent_map.filter(item=>item.countries.includes(country))
   const test=get[0].continent
   console.log(test)
      return test
 }
 async selectApi(){
-  console.log(await this.date[0].country_name)
+  //console.log(await this.date[0].region)
+   
   if(await this.getContinent(await this.date[0].country_name)==='Europe'){
      this.apiUrl= environment.api_url_eu+'/getRecipes'
      this.bucket= environment.bucket_eu
   }
   
-   if(await this.getContinent(await this.date[0].country_name)==='Usa'){
+   else if(await this.getContinent(await this.date[0].region)==='Usa'){
     this.apiUrl= environment.api_url_us+'/getRecipes'
     this.bucket= environment.bucket_us
   }
-  if(await this.getContinent(await this.date[0].country_name)==='Usa1'){
+  else if(await this.getContinent(await this.date[0].region)==='Usa1'){
     this.apiUrl= environment.api_url_us1+"/getRecipes"
     this.bucket= environment.bucket_us1
   }

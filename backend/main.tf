@@ -60,7 +60,7 @@ module "storage_west" {
 
 }
 module "api" {
-  source        = "./API"
+  source        = "./api"
   user_pool_arn = module.authorization-west.user_pool_arn
   db_table      = module.database.table_name
   db_table_order=module.database.table_name_order
@@ -71,7 +71,7 @@ module "api" {
 }
 
 module "api-west" {
-  source        = "./API"
+  source        = "./api"
   user_pool_arn = module.authorization-west.user_pool_arn
   db_table      = module.database-west.table_name
   db_table_order=module.database-west.table_name_order
