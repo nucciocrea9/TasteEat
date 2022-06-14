@@ -20,7 +20,7 @@ env:
   API_URL_US: ${{secrets.API_URL_US}}
   API_URL_EU: ${{secrets.API_URL_EU}}
   API_URL_US1: ${{secrets.API_URL_US1}}
-  TEST: ${{}}
+
  
 jobs:
   tf_fmt:
