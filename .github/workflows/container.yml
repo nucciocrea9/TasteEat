@@ -62,7 +62,7 @@ jobs:
       working-directory: ./backend
       #uses: hashicorp/terraform-github-actions/validate@v0.3.7
       run: |
-       echo {{env.REGION}}
+       echo "${{env.REGION}}""
       env:
         #GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         TF_ACTION_WORKING_DIR: 'terraform'
