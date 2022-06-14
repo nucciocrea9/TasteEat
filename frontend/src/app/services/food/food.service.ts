@@ -17,72 +17,72 @@ import { Continents } from 'src/app/shared/models/continent';
 
 
 export class FoodService {
-  
-  elements: Food[] ;
+
+  elements: Food[];
   orders: Order[];
-  date:Ip[]=[];
-  continent: Continents= new Continents()
-  apiUrl:any
-  constructor(public http: HttpClient, public cognito: CognitoService , private router: Router) {
-     this.elements = []
-     this.orders=[]
+  date: Ip[] = [];
+  continent: Continents = new Continents()
+  apiUrl: any
+  constructor(public http: HttpClient, public cognito: CognitoService, private router: Router) {
+    this.elements = []
+    this.orders = []
   }
 
-  getUrl(file: string,bucket): string {
-    
+  getUrl(file: string, bucket): string {
+
     const params = {
       Bucket: bucket,
       Key: file
     };
-    
+
     let s3 = new AWS.S3();
-   
+
     return s3.getSignedUrl('getObject', { Bucket: params.Bucket, Key: params.Key });
   }
 
   async ipLookup(): Promise<void> {
     return new Promise((resolve) => {
       this.http.get<any>('https://ipapi.co/json/').subscribe(recipes => {
-           this.date.push(recipes);
-           
-            resolve();
-        });
+        this.date.push(recipes);
+
+        resolve();
+      });
     });
-}
-
-async getContinent(country:string) {
-  
-  
-  const get=this.continent.continent_map.filter(item=>item.countries.includes(country))
-  const test=get[0].continent
-  console.log(test)
-     return test
-}
-
-  async selectApi(){
-    const country='Europe'
-    if(await this.getContinent(await this.date[0].country_name)==='Europe'){
-      this.apiUrl= environment.api_url_eu+'/order'
-      
-   }
-   
-   else if(await this.getContinent(await this.date[0].region)==='Usa'){
-    this.apiUrl= environment.api_url_us+'/order'
-    
   }
-  else if(await this.getContinent(await this.date[0].region)==='Usa1'){
-    this.apiUrl= environment.api_url_us1+"/order"
-    
+
+  async getContinent(country: string) {
+
+
+    const get = this.continent.continent_map.filter(item => item.countries.includes(country))
+    const test = get[0].continent
+    console.log(test)
+    return test
   }
-   console.log(this.apiUrl)
-   return this.apiUrl
-}
+
+  async selectApi() {
+    const country = 'Europe'
+    if (await this.getContinent(await this.date[0].country_name) === 'Europe') {
+      this.apiUrl = environment.api_url_eu + '/order'
+
+    }
+
+    else if (await this.getContinent(await this.date[0].region) === 'Usa') {
+      this.apiUrl = environment.api_url_us + '/order'
+
+    }
+    else if (await this.getContinent(await this.date[0].region) === 'Usa1') {
+      this.apiUrl = environment.api_url_us1 + "/order"
+
+    }
+    console.log(this.apiUrl)
+    return this.apiUrl
+  }
   getFoodById(id: number): Food {
     return this.getAll().find(food => food.id == id)!;
   }
 
   getFoodByTag(tag: string): Food[] {
-    
+
     return tag == "All" ? this.getAll() : this.getAll().filter(food => food.tags?.includes(tag));
   }
 
@@ -90,41 +90,39 @@ async getContinent(country:string) {
     this.elements = []
   }
 
-  async createOrder(recipe_name, recipe_price){
-    let firstName: any; 
+  async createOrder(recipe_name, recipe_price) {
+    let firstName: any;
     await this.ipLookup()
-    //console.log(this.date[0].countryCode)
-   // console.log(this.test[0])
-   await this.selectApi()
+
+    await this.selectApi()
     this.cognito.getIdToken()
-        .pipe()  //this will limit the observable to only one value
-        .subscribe((val) => {
-            firstName = val; 
-        });
-    const headers = { "Authorization": firstName}
+      .pipe()  //this will limit the observable to only one value
+      .subscribe((val) => {
+        firstName = val;
+      });
+    const headers = { "Authorization": firstName }
     console.log(firstName)
-    const name=recipe_name.replace(/ /g,"_")
-    const params={name: name, price: recipe_price }
+    const name = recipe_name.replace(/ /g, "_")
+    const params = { name: name, price: recipe_price }
     const options = { params: params, headers: headers };
-    //this.cognito.refreshAwsCredentials()
-    this.http.post<any>(await this.selectApi(), null, options).subscribe(res=>{});
-   // await this.selectApi()
-    //this.router.navigate(['/home'])
+
+    this.http.post<any>(await this.selectApi(), null, options).subscribe(res => { });
+
   }
 
-   getOrders(api_url,bucket) : Order[]{
-    let firstName: any; 
+  getOrders(api_url, bucket): Order[] {
+    let firstName: any;
 
     this.cognito.getIdToken()
-        .pipe()  //this will limit the observable to only one value
-        .subscribe((val) => {
-            firstName = val; 
-        });
-        console.log(firstName)
-    const headers = { "Authorization": firstName}
+      .pipe()  //this will limit the observable to only one value
+      .subscribe((val) => {
+        firstName = val;
+      });
+    console.log(firstName)
+    const headers = { "Authorization": firstName }
     this.http.get<any>(api_url, { headers }).subscribe(orders => {
-    
-     orders.forEach((order: any) => {
+
+      orders.forEach((order: any) => {
         const temp = {
           name: order.name.replace(/_/g, " "),
           price: order.price,
@@ -135,25 +133,25 @@ async getContinent(country:string) {
         this.orders.push(temp);
       })
       this.orders.forEach((element) => {
-        element.imageUrl = this.getUrl(element.name.replace(/\s/g, "") + '.jpg',bucket)
+        element.imageUrl = this.getUrl(element.name.replace(/\s/g, "") + '.jpg', bucket)
       })
     })
     return this.orders
   }
-getAllorders(){
-  return this.orders;
-}
-  getApi(api_url,bucket){
-    let firstName: any; 
-    
+  getAllorders() {
+    return this.orders;
+  }
+  getApi(api_url, bucket) {
+    let firstName: any;
+
     this.cognito.getIdToken()
-        .pipe()  //this will limit the observable to only one value
-        .subscribe((val) => {
-            firstName = val; 
-        });
+      .pipe()  //this will limit the observable to only one value
+      .subscribe((val) => {
+        firstName = val;
+      });
     console.log(firstName);
-    
-    const headers = { "Authorization": firstName}
+
+    const headers = { "Authorization": firstName }
     this.http.get<any>(api_url, { headers }).subscribe(async (recipes) => {
 
       recipes.forEach((recipe: any) => {
@@ -166,16 +164,16 @@ getAllorders(){
           imageUrl: '',
           tags: recipe.tags.SS
         }
-       
+
         this.elements.push(temp);
       })
       this.elements.forEach((element) => {
-        
+
         element.imageUrl = this.getUrl(element.name.replace(/\s/g, "") + '.jpg', bucket)
       })
-      
+
     })
-   //console.log(AWS.config.getCredentials)
+    //console.log(AWS.config.getCredentials)
     return this.elements
   }
 
@@ -191,9 +189,9 @@ getAllorders(){
     ];
 
   }
-   getAll(): Food[] {
-    
-    
+  getAll(): Food[] {
+
+
     return this.elements;
 
   }
